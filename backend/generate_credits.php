@@ -92,6 +92,11 @@
                   $array = $list->current();
                   for($q=0;$q<count($array);$q++)
                   {
+                    if(count($this->labs)!=0 && count($array) < 5)
+                    {
+                      array_push($array, next($this->labs));
+                      unset($this->labs[current($this->labs)]);
+                    }
                     if($array[$q] === "NA")
                     {
                       foreach ($this->credits as $key => $value) {
