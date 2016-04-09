@@ -39,7 +39,7 @@
                  $random = rand(0,$n_subjects-1);
                  if($this->credits[$temp[$random]] == 0)
                  {
-                  
+                  array_push($p_subjects, "NA");
                   continue;
                  }
                  else
@@ -65,7 +65,10 @@
                  $n_subjects = count($temp);
                  $random = rand(0,$n_subjects-1);
                  if($this->credits[$temp[$random]] == 0)
+                 {
+                  array_push($p_subjects, "NA");
                   continue;
+                 }
                  else
                   $this->credits[$temp[$random]]--;
                  array_push($p_subjects,$temp[$random]);
@@ -81,14 +84,27 @@
         
         //print_r($list);
 
-      
+              
         $week_no = 0;
         for ($list->rewind(); $list->valid(); $list->next()) {
                   echo "<tr>";
                   echo "<td>".$this->week[$week_no++]."</td>";
                   $array = $list->current();
                   for($q=0;$q<count($array);$q++)
+                  {
+                    if($array[$q] === "NA")
+                    {
+                      foreach ($this->credits as $key => $value) {
+                        if($value != 0)
+                        {
+                          $array[$q] = $key;
+                          $this->credits[$key]--;
+                          break;
+                        }
+                      }
+                    }
                     echo "<td>".$array[$q]."</td>";
+                  }
                   echo "</tr>";
               }
       echo "</table>";              
